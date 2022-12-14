@@ -9,7 +9,7 @@ import numpy as np
 cap = cv2.VideoCapture(0)  # Checks for camera
 
 mpHands = mp.solutions.hands  # detects hand/finger
-hands = mpHands.Hands()  # complete the initialization configuration of hands
+hands = mpHands.Hands()  
 mpDraw = mp.solutions.drawing_utils
 
 # To access speaker through the library pycaw
@@ -50,7 +50,6 @@ while True:
         cv2.line(img, (x1, y1), (x2, y2), (255, 0, 0), 3)  # create a line b/w tips of index finger and thumb
 
         length = hypot(x2 - x1, y2 - y1)  # distance b/w tips using hypotenuse
-        # from numpy we find our length,by converting hand range in terms of volume range ie b/w -63.5 to 0
         vol = np.interp(length, [30, 350], [volMin, volMax])
         volbar = np.interp(length, [30, 350], [400, 150])
         volper = np.interp(length, [30, 350], [0, 100])
@@ -65,7 +64,6 @@ while True:
                       4)  # vid ,initial position ,ending position ,rgb ,thickness
         cv2.rectangle(img, (50, int(volbar)), (85, 400), (0, 0, 255), cv2.FILLED)
         cv2.putText(img, f"{int(volper)}%", (10, 40), cv2.FONT_ITALIC, 1, (0, 255, 98), 3)
-        # tell the volume percentage ,location,font of text,length,rgb color,thickness
     cv2.imshow('Image', img)  # Showw the video
     if cv2.waitKey(1) & 0xff == ord(' '):  # By using spacebar delay will stop
         break
